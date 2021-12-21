@@ -1,0 +1,31 @@
+{
+  "name": "discordbot",
+  "version": "0.0.1",
+  "description": "DiscordJS in Typescript!",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node .",
+    "start": "node .",
+    "set": "node deploy.js && ts-node ."
+  },
+  "keywords": [
+    "discord.js",
+    "typescript",
+    "command"
+  ],
+  "author": "unrealg",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^13.1.6",
+    "dotenv": "^8.2.0",
+    "ts-node": "^8.6.0",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.9.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.25.2",
+    "discord.js": "^13.3.1"
+  }
+}
