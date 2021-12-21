@@ -1,4 +1,4 @@
-import {runEvent} from "../index";
+import {runEvent} from "../main";
 import { SlashCommandBuilder } from "@discordjs/builders"
 
 export function run(e: runEvent) {

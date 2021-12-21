@@ -2,12 +2,12 @@
   "name": "discordbot",
   "version": "0.0.1",
   "description": "DiscordJS in Typescript!",
-  "main": "index.js",
+  "main": "build/client.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node .",
-    "start": "node .",
-    "set": "node deploy.js && ts-node ."
+    "dev": "node --loader ts-node/esm/transpile-only src/main.ts",
+    "start": "nodemon --exec node --loader ts-node/esm/transpile-only src/main.ts",
+    "serve": "node build/client.js"
   },
   "keywords": [
     "discord.js",
@@ -17,15 +17,21 @@
   "author": "unrealg",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^13.1.6",
-    "dotenv": "^8.2.0",
-    "ts-node": "^8.6.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
   },
   "dependencies": {
     "@discordjs/builders": "^0.9.0",
     "@discordjs/rest": "^0.2.0-canary.0",
+    "@types/node": "^17.0.2",
     "discord-api-types": "^0.25.2",
-    "discord.js": "^13.3.1"
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0"
   }
 }
