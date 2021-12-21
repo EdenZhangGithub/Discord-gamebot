@@ -5,6 +5,7 @@ import { Discord, ContextMenu } from "discordx";
 export abstract class contextTest {
   @ContextMenu("MESSAGE", "message context")
   async messageHandler(interaction: ContextMenuInteraction) {
+    console.log(interaction);
     interaction.reply("I am user context handler");
   }
 
