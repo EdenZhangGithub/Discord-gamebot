@@ -13,15 +13,16 @@ services:
       MYSQL_HOST: mysql
       MYSQL_USER: root
       MYSQL_PASSWORD: secret
-      MYSQL_DB: bot-db
+      MYSQL_DB: botdb
+      # BOT_TOKEN: OTIyNzQ2NTAxNjQ4NzczMTgw.YcF8pQ.W8OV2lBaNXnAR2c49S35lRHMJcI
 
   mysql:
     image: mysql:5.7
     volumes:
-      - bot-db:/var/lib/mysql
+      - botdb:/var/lib/mysql
     environment: 
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: bot-db
+      MYSQL_DATABASE: botdb
 
 volumes:
-  bot-db:
+  botdb:
