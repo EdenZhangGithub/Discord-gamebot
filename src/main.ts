@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Intents, Interaction, Message } from "discord.js";
+import { Intents, Interaction, Message, User } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import dotenv from "dotenv"
@@ -84,20 +84,26 @@ client.on("messageCreate", (message: Message) => {
 			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, 0, 0)`, (e, r) => {
 				if(e) { console.log(`ERR AT (ALT USR):: ${e}`); return; }
 				console.log(`User ${message.author.username} Created!`);
+
+				// Give them the XP worth the amount of which they sent. 
+				handoutXP(message.content.length, message.author);
 			});
 		}
 
 		// If they DO exist, we increment their xp by x*k amount, determined by the length of their message and a modifier
 		else {
-			const message_length = message.content.length;
-			const xp_gained = message_length * 0.05;
-			connection.query(`UPDATE users SET xp = xp + ${xp_gained} WHERE id = ${message.author.id}`, (e, r) => {
-				if(e) { console.log(`ERR AT (UPD USR):: ${e}`); return; }
-				console.log(`User ${message.author.username} Updated!`, r);
-			});
+			handoutXP(message.content.length, message.author);
 		}
 	});
 });
+
+const handoutXP = (message_length: number, author: User) => {
+	const xp_gained = message_length * 0.05;
+	connection.query(`UPDATE users SET xp = xp + ${xp_gained} WHERE id = ${author.id}`, (e, r) => {
+		if(e) { console.log(`ERR AT (UPD USR):: ${e}`); return; }
+		console.log(`User ${author.username} Updated!`, r);
+	});
+}
 
 dotenv.config();
 
