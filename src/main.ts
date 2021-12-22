@@ -1,15 +1,15 @@
 import "reflect-metadata";
-import { Intents, Interaction, Message } from "discord.js";
+import { Intents, Interaction, Message, User } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import dotenv from "dotenv"
 import mysql from "mysql"
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
 	host     :  process.env.MYSQL_HOST,
 	user     : 'root',
 	password : 'secret',
-	database : 'bot-db'
+	database : 'botdb'
 });
 
 const client = new Client({
@@ -41,20 +41,25 @@ client.once("ready", async () => {
 	//    ...client.guilds.cache.map((g) => g.id)
 	//  );
 
-	connection.connect();
+	// connection.connect(() => {
+	try {
+		connection.query(`
+			CREATE TABLE IF NOT EXISTS users (
+				id        bigint,
+				username  text NOT NULL,
+				money     int,
+				xp        int,
+				level     int
+			)
+		`, function (error) {
+			if (error) return error;
+		});
+	} catch (error) {
+		console.log("ERR AT (ONCE READY):: ", error);
+	}	
+	// });	
 
-	connection.query(`CREATE TABLE users (
-		id        uuid,
-		username  varchar(255),
-		money     int,
-		xp        int,
-		level     int
-	)`, function (error, results, fields) {
-		if (error) throw error;
-		console.log('The solution is: ', results[0].solution);
-	});
-	
-	console.log("Bot started");
+	console.log("🎉 Bot started");
 });
 
 client.on("interactionCreate", (interaction: Interaction) => {
@@ -66,27 +71,39 @@ client.on("messageCreate", (message: Message) => {
 });
 
 client.on("messageCreate", (message: Message) => {
+	console.log(`NEW MESSAGE FROM ${message.author.username}:: ${message.content}`);
+
 	// Run a query to check if the user exists currently.
-	connection.query(`SELECT * FROM users WHERE id ==${message.author.id}`, (err, res) => {
-		if(err) { console.log(`ERR: ${err}`); return; }
-		else console.log(res);
+	connection.query(`SELECT * FROM users WHERE id = ${message.author.id}`, (err, res) => {
+		if(err) { console.log(`ERR AT (SEL USR):: ${err}`); return; }
+		else console.log(typeof res, res);
 
 		// If they don't exist, create the user and initialize with a default value of 0.
-		if(!res) {
+		if(res == [] || !res || Object.entries(res).length === 0) {
 			console.log("User does not exist!");
-			connection.query(`ALTER TABLE users; ADD ${message.author.id} ${message.author.username} 0 0 0`, (e,r) => {
-				if(e) { console.log(e); return; }
+			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, 0, 0)`, (e, r) => {
+				if(e) { console.log(`ERR AT (ALT USR):: ${e}`); return; }
 				console.log(`User ${message.author.username} Created!`);
+
+				// Give them the XP worth the amount of which they sent. 
+				handoutXP(message.content.length, message.author);
 			});
 		}
-		// If they DO exist, we increment their xp by x amount, determined by the length of their message.
+
+		// If they DO exist, we increment their xp by x*k amount, determined by the length of their message and a modifier
 		else {
-			
+			handoutXP(message.content.length, message.author);
 		}
 	});
-	
-
 });
+
+const handoutXP = (message_length: number, author: User) => {
+	const xp_gained = message_length * 0.05;
+	connection.query(`UPDATE users SET xp = xp + ${xp_gained} WHERE id = ${author.id}`, (e, r) => {
+		if(e) { console.log(`ERR AT (UPD USR):: ${e}`); return; }
+		console.log(`User ${author.username} Updated!`, r);
+	});
+}
 
 dotenv.config();
 
