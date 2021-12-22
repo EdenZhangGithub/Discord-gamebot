@@ -7,6 +7,11 @@ import {
 
 @Discord()
 class simpleCommandExample {
+  /*
+    A 'SimpleCommand' is one that exists purely in a textual form - one that does not appear as a slash command.
+    Predicated by the 'bang' (!) prefix, the first variable being the command after the bang, i.e. here !hello (or the alias !hi).
+    After, calls the hello() function which replies to the commands message with a wave and a ping.
+  */
   @SimpleCommand("hello", { aliases: ["hi"] })
   hello(command: SimpleCommandMessage) {
     command.message.reply(`👋 ${command.message.member}`);

@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    image: node:latest
+    command: sh -c "yarn start"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: bot-db
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - bot-db:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: bot-db
+
+volumes:
+  bot-db:

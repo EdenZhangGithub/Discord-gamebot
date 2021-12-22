@@ -3,6 +3,7 @@ import { Intents, Interaction, Message } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import dotenv from "dotenv"
+import mysql from "mysql"
 
 const client = new Client({
   simpleCommand: {
@@ -15,25 +16,34 @@ const client = new Client({
 });
 
 client.once("ready", async () => {
-  // make sure all guilds are in cache
-  await client.guilds.fetch();
+	// make sure all guilds are in cache
+	await client.guilds.fetch();
 
-  // init all application commands
-  await client.initApplicationCommands({
-    guild: { log: true },
-    global: { log: true },
-  });
+	// init all application commands
+	await client.initApplicationCommands({
+		guild: { log: true },
+		global: { log: true },
+	});
 
-  // init permissions; enabled log to see changes
-  await client.initApplicationPermissions(true);
+	// init permissions; enabled log to see changes
+	await client.initApplicationPermissions(true);
 
-  // uncomment this line to clear all guild commands,
-  // useful when moving to global commands from guild commands
-  //  await client.clearApplicationCommands(
-  //    ...client.guilds.cache.map((g) => g.id)
-  //  );
+	// uncomment this line to clear all guild commands,
+	// useful when moving to global commands from guild commands
+	//  await client.clearApplicationCommands(
+	//    ...client.guilds.cache.map((g) => g.id)
+	//  );
 
-  console.log("Bot started");
+	const connection = mysql.createConnection({
+		host     : 	process.env.MYSQL_HOST,
+		user     : 'root',
+		password : 'secret',
+		database : 'bot-db'
+	});
+
+	connection.connect();
+
+	console.log("Bot started");
 });
 
 client.on("interactionCreate", (interaction: Interaction) => {
