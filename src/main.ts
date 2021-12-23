@@ -3,14 +3,7 @@ import { Intents, Interaction, Message, User } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import dotenv from "dotenv"
-import mysql from "mysql"
-
-const connection = mysql.createPool({
-	host     :  process.env.MYSQL_HOST,
-	user     : 'root',
-	password : 'secret',
-	database : 'botdb'
-});
+import connection from "./db.js"
 
 const client = new Client({
   simpleCommand: {
@@ -71,6 +64,7 @@ client.on("messageCreate", (message: Message) => {
 });
 
 client.on("messageCreate", (message: Message) => {
+	if(message.author.bot) return;
 	// console.log(`NEW MESSAGE FROM ${message.author.username}:: ${message.content}`);
 
 	// Run a query to check if the user exists currently.
@@ -118,3 +112,5 @@ async function run() {
 }
 
 run();
+
+export { connection };
