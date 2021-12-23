@@ -48,7 +48,7 @@ client.once("ready", async () => {
 				id        bigint,
 				username  text NOT NULL,
 				money     int,
-				xp        int,
+				xp        float(18),
 				level     int
 			)
 		`, function (error) {
@@ -71,38 +71,42 @@ client.on("messageCreate", (message: Message) => {
 });
 
 client.on("messageCreate", (message: Message) => {
-	console.log(`NEW MESSAGE FROM ${message.author.username}:: ${message.content}`);
+	// console.log(`NEW MESSAGE FROM ${message.author.username}:: ${message.content}`);
 
 	// Run a query to check if the user exists currently.
 	connection.query(`SELECT * FROM users WHERE id = ${message.author.id}`, (err, res) => {
 		if(err) { console.log(`ERR AT (SEL USR):: ${err}`); return; }
-		else console.log(typeof res, res);
 
 		// If they don't exist, create the user and initialize with a default value of 0.
 		if(res == [] || !res || Object.entries(res).length === 0) {
 			console.log("User does not exist!");
-			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, 0, 0)`, (e, r) => {
+			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, ${message.cleanContent.length * 0.03}, 0)`, (e, r) => {
 				if(e) { console.log(`ERR AT (ALT USR):: ${e}`); return; }
 				console.log(`User ${message.author.username} Created!`);
-
-				// Give them the XP worth the amount of which they sent. 
-				handoutXP(message.content.length, message.author);
 			});
 		}
 
 		// If they DO exist, we increment their xp by x*k amount, determined by the length of their message and a modifier
 		else {
-			handoutXP(message.content.length, message.author);
+			handoutXP(message.cleanContent.length, message.author, res);
 		}
 	});
 });
 
-const handoutXP = (message_length: number, author: User) => {
-	const xp_gained = message_length * 0.05;
-	connection.query(`UPDATE users SET xp = xp + ${xp_gained} WHERE id = ${author.id}`, (e, r) => {
+const handoutXP = (message_length: number, author: User, res: any) => {
+	const xp_gained = message_length * 0.03;
+	const level = determineLevel(res, xp_gained);
+
+	connection.query(`UPDATE users SET xp = xp + ${xp_gained}, level = ${level ? level : 0} WHERE id = ${author.id}`, (e, r) => {
 		if(e) { console.log(`ERR AT (UPD USR):: ${e}`); return; }
 		console.log(`User ${author.username} Updated!`, r);
 	});
+}
+
+const determineLevel = (data: any, xp_gained: number) => {
+	const xp = data[0]?.xp + xp_gained;
+	const level = Math.floor(Math.pow(xp, 0.5));
+	return level;
 }
 
 dotenv.config();
