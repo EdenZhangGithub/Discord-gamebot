@@ -15,6 +15,8 @@ const client = new Client({
   silent: true,
 });
 
+const prodname = "[/]";
+
 client.once("ready", async () => {
 	// make sure all guilds are in cache
 	await client.guilds.fetch();
@@ -74,9 +76,11 @@ client.on("messageCreate", (message: Message) => {
 		// If they don't exist, create the user and initialize with a default value of 0.
 		if(res == [] || !res || Object.entries(res).length === 0) {
 			console.log("User does not exist!");
-			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, ${message.cleanContent.length * 0.03}, 0)`, (e, r) => {
+			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 15, ${message.cleanContent.length * 0.03}, 0)`, (e, r) => {
 				if(e) { console.log(`ERR AT (ALT USR):: ${e}`); return; }
 				console.log(`User ${message.author.username} Created!`);
+
+				message.reply(`${message.author} Hi! I don't believe we've met. Welcome to the ${prodname}! \nYou can earn experience by chatting, and is counted across servers, as a welcome - we have given you 15:coin: to start off with.\n\nYou can begin your journey by using the command \`/profile\`!`);
 			});
 		}
 
