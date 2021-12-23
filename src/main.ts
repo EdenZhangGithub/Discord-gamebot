@@ -80,12 +80,9 @@ client.on("messageCreate", (message: Message) => {
 		// If they don't exist, create the user and initialize with a default value of 0.
 		if(res == [] || !res || Object.entries(res).length === 0) {
 			console.log("User does not exist!");
-			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, 0, 0)`, (e, r) => {
+			connection.query(`INSERT INTO users (id, username, money, xp, level) VALUES (${message.author.id}, '${message.author.username}', 0, ${message.cleanContent.length * 0.03}, 0)`, (e, r) => {
 				if(e) { console.log(`ERR AT (ALT USR):: ${e}`); return; }
 				console.log(`User ${message.author.username} Created!`);
-
-				// Give them the XP worth the amount of which they sent. 
-				handoutXP(message.cleanContent.length, message.author, res);
 			});
 		}
 
@@ -97,7 +94,7 @@ client.on("messageCreate", (message: Message) => {
 });
 
 const handoutXP = (message_length: number, author: User, res: any) => {
-	const xp_gained = message_length * 0.01;
+	const xp_gained = message_length * 0.03;
 	const level = determineLevel(res, xp_gained);
 
 	connection.query(`UPDATE users SET xp = xp + ${xp_gained}, level = ${level ? level : 0} WHERE id = ${author.id}`, (e, r) => {
@@ -107,8 +104,7 @@ const handoutXP = (message_length: number, author: User, res: any) => {
 }
 
 const determineLevel = (data: any, xp_gained: number) => {
-	console.log(data[0], data);
-	const xp = xp_gained;
+	const xp = data[0]?.xp + xp_gained;
 	const level = Math.floor(Math.pow(xp, 0.5));
 	return level;
 }
