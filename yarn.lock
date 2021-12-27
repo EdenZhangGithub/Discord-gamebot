@@ -49,11 +49,10 @@
     typescript "^4.4.4"
 
 "@discordx/utilities@^3.1.5":
-  version "3.1.5"
-  resolved "https://registry.npmjs.org/@discordx/utilities/-/utilities-3.1.5.tgz"
-  integrity sha512-2BC2qfOqjY/1joxfRGylMXScSX+DNyndh9jOuotlCJ+HARQCxWdFvDuE6bPynwFLd4H8hprecSgS4lIOEz+bYg==
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/@discordx/utilities/-/utilities-3.1.8.tgz#7ad67b3f49224eb61f953279a31bde9468d450a1"
+  integrity sha512-ChNKdVoNZPgQ14KlqIcYOFhTCGCgLqnC6Ex9W12OKOpYHZ5Y3J+nDv7ImMyys2aEQsJgcYiC5Usd9diiiIbn9w==
   dependencies:
-    discord.js "^13.3.1"
     lodash "^4.17.21"
     tslib "^2.3.1"
 
