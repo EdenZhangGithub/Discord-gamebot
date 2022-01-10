@@ -391,13 +391,10 @@ discord.js@^13.3.1:
     ws "^8.2.3"
 
 discordx@^9.0.1:
-  version "9.0.1"
-  resolved "https://registry.npmjs.org/discordx/-/discordx-9.0.1.tgz"
-  integrity sha512-WpxygINbLYejKQ1NgOroHG7B1FdOCpHHNtWhpI1EhFwi4eHXPGd3wG3EoKeP39TrNtithZjFDfQZCV2eTYbc5Q==
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/discordx/-/discordx-9.1.9.tgz#928961ecdc40b43634642d634498a486ae9e1daa"
+  integrity sha512-OYmdNzVy8iymPyE3onKR7Vm8oFyHQZ6JX6Cq5PDWW7Bl5NK2nNqFF5Ib567xv7a6WNnz2taljMnNwJEF/5sFiA==
   dependencies:
-    discord-api-types "^0.24.0"
-    discord.js "^13.3.1"
-    glob "^7.2.0"
     lodash "^4.17.21"
     reflect-metadata "^0.1.13"
     tslib "^2.3.1"
