@@ -49,12 +49,10 @@
     typescript "^4.4.4"
 
 "@discordx/utilities@^3.1.5":
-  version "3.1.5"
-  resolved "https://registry.npmjs.org/@discordx/utilities/-/utilities-3.1.5.tgz"
-  integrity sha512-2BC2qfOqjY/1joxfRGylMXScSX+DNyndh9jOuotlCJ+HARQCxWdFvDuE6bPynwFLd4H8hprecSgS4lIOEz+bYg==
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@discordx/utilities/-/utilities-3.3.1.tgz#4faffd4ab7e9656f1d5f9cead3432ecb4a33356e"
+  integrity sha512-CzeZ/ADKdAJJtgEledFy/+8txhQb5fe/SbqXIiUHfwT34gxeZD7LJz2OA5ojpBkjqD0qXHNvdll1dfIUNZaGJw==
   dependencies:
-    discord.js "^13.3.1"
-    lodash "^4.17.21"
     tslib "^2.3.1"
 
 "@sapphire/async-queue@^1.1.8":
