@@ -39,6 +39,13 @@
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+"@discordx/di@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@discordx/di/-/di-1.0.2.tgz#ed85fcb351d4b6a52f45b7e67c0a665501a79762"
+  integrity sha512-Z4dQ18L6oC28pQ+giW3XlKvozLyguivKsvERcTOG6ZpUtPbzvjmNDQAYXNYwsscKEIl7QRq5Qfs+8WeRl1mudA==
+  dependencies:
+    tsyringe "^4.6.0"
+
 "@discordx/importer@^1.1.2":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@discordx/importer/-/importer-1.1.2.tgz"
@@ -47,6 +54,13 @@
     glob "^7.2.0"
     tslib "^2.3.1"
     typescript "^4.4.4"
+
+"@discordx/internal@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@discordx/internal/-/internal-1.0.2.tgz#89751194e4c0a7281ea958e2c9e95a53c9f8a6ed"
+  integrity sha512-+vv5QS133O3TDDBvPp+ugQy5ExCFjVTxVn5AwQRgwpKNyXSplarNXA4TzACuiYBnXb6ecwtjfbDLcy/xMjYIoQ==
+  dependencies:
+    tslib "^2.3.1"
 
 "@discordx/utilities@^3.1.5":
   version "3.1.5"
@@ -391,17 +405,15 @@ discord.js@^13.3.1:
     ws "^8.2.3"
 
 discordx@^9.0.1:
-  version "9.0.1"
-  resolved "https://registry.npmjs.org/discordx/-/discordx-9.0.1.tgz"
-  integrity sha512-WpxygINbLYejKQ1NgOroHG7B1FdOCpHHNtWhpI1EhFwi4eHXPGd3wG3EoKeP39TrNtithZjFDfQZCV2eTYbc5Q==
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/discordx/-/discordx-9.2.2.tgz#4955267b731b2bf0969afe9748dcc9fe277ed8e9"
+  integrity sha512-Orctir1U8KTqTit8xLNyfBZiVhAQsk0lQ8SRJli3qsgyC3VwVcEfw6qvMJewpwy7tj5g/TV0PG1F/Rh2C3VNrg==
   dependencies:
-    discord-api-types "^0.24.0"
-    discord.js "^13.3.1"
-    glob "^7.2.0"
+    "@discordx/di" "^1.0.2"
+    "@discordx/internal" "^1.0.2"
     lodash "^4.17.21"
     reflect-metadata "^0.1.13"
     tslib "^2.3.1"
-    tsyringe "^4.6.0"
 
 dot-prop@^5.2.0:
   version "5.3.0"
